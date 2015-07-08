@@ -16,7 +16,7 @@ namespace Tic_Tac_Toe
         bool computer = true;
         int turnCount = 0;
         
-
+        //check
         public Form1()
         {
             InitializeComponent();
@@ -170,20 +170,19 @@ namespace Tic_Tac_Toe
  
             Button move = null;
  
-            //look for tic tac toe opportunities
-            move = look_for_win_or_block("X"); //look for win
+            move = look_for_win_or_block("O"); 
             if (move == null)
             {
-                move = look_for_win_or_block("O"); //look for block
+                move = look_for_win_or_block("X");
                 if (move == null)
                 {
                     move = look_for_corner();
                     if (move == null)
                     {
                         move = look_for_open_space();
-                    }//end if
-                }//end if
-            }//end if
+                    }
+                }
+            }
 
             move.PerformClick();
         }
