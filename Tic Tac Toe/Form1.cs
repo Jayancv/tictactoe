@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MySQLClass;
 
 namespace Tic_Tac_Toe
 {
@@ -15,6 +16,8 @@ namespace Tic_Tac_Toe
         bool turn = true;
         bool computer = true;
         int turnCount = 0;
+        String p, p1, p1;
+        int WonP, WonP1, WonP2, DefP, DefP1, DefP2;
         
         //check
         public Form1()
@@ -150,12 +153,15 @@ namespace Tic_Tac_Toe
         private void single(object sender, EventArgs e)
         {
             computer = true;
+            panel2.Visible = true;
             turn = true;
         }
 
         private void multi(object sender, EventArgs e)
         {
             computer = false;
+            panel1.Visible=true;
+
         }
 
 
@@ -326,6 +332,60 @@ namespace Tic_Tac_Toe
         }
 
         private void check()
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void repateGameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            newGameToolStripMenuItem_Click(sender, e);
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void submit_Click(object sender, EventArgs e)
+        {
+            if (player1.Text.Equals("") || player2.Text.Equals(""))
+            {
+                panel1.Visible = true;
+            }
+            else {
+                panel1.Visible = false;
+            }
+        }
+
+        private void submitP1_Click(object sender, EventArgs e)
+        {
+            if (singlePlayer.Text.Equals("")) {
+                panel2.Visible = true;
+            }
+            else { panel2.Visible = false ; }
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            panel2.Visible = false;
+        }
+
+        private void btnCancelP2_Click(object sender, EventArgs e)
+        {
+            panel1.Visible = false;
+        }
+
+        private void scoreToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
         }
