@@ -186,7 +186,7 @@ namespace Tic_Tac_Toe
 
         private void newGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            newGame_Click(sender, e);
 
         }
 
@@ -526,6 +526,11 @@ namespace Tic_Tac_Toe
         }
 
         private void label8_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void boardS_Click(object sender, EventArgs e)
         {
 
         }

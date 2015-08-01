@@ -283,7 +283,7 @@
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(12, 59);
+            this.panel1.Location = new System.Drawing.Point(0, 79);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(292, 162);
             this.panel1.TabIndex = 10;
@@ -368,7 +368,7 @@
             this.panel2.Controls.Add(this.singlePlayer);
             this.panel2.Controls.Add(this.label5);
             this.panel2.Controls.Add(this.label4);
-            this.panel2.Location = new System.Drawing.Point(8, 78);
+            this.panel2.Location = new System.Drawing.Point(0, 83);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(292, 162);
             this.panel2.TabIndex = 6;
@@ -436,29 +436,30 @@
             // 
             this.boardS.AutoSize = true;
             this.boardS.Font = new System.Drawing.Font("Adobe Gothic Std B", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.boardS.Location = new System.Drawing.Point(337, 30);
+            this.boardS.Location = new System.Drawing.Point(277, 64);
             this.boardS.Name = "boardS";
-            this.boardS.Size = new System.Drawing.Size(56, 16);
+            this.boardS.Size = new System.Drawing.Size(32, 16);
             this.boardS.TabIndex = 13;
-            this.boardS.Text = "Player 1";
+            this.boardS.Text = "You";
             this.boardS.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.boardS.Click += new System.EventHandler(this.boardS_Click);
             // 
             // boardM
             // 
             this.boardM.AutoSize = true;
             this.boardM.Font = new System.Drawing.Font("Adobe Gothic Std B", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.boardM.Location = new System.Drawing.Point(340, 158);
+            this.boardM.Location = new System.Drawing.Point(277, 180);
             this.boardM.Name = "boardM";
-            this.boardM.Size = new System.Drawing.Size(56, 16);
+            this.boardM.Size = new System.Drawing.Size(69, 16);
             this.boardM.TabIndex = 14;
-            this.boardM.Text = "Player 2";
+            this.boardM.Text = "Computer";
             this.boardM.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Minion Pro", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(340, 45);
+            this.label8.Location = new System.Drawing.Point(332, 46);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(34, 18);
             this.label8.TabIndex = 15;
@@ -469,7 +470,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Minion Pro", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(332, 90);
+            this.label9.Location = new System.Drawing.Point(331, 85);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(57, 18);
             this.label9.TabIndex = 16;
@@ -479,7 +480,7 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Minion Pro", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(343, 181);
+            this.label10.Location = new System.Drawing.Point(337, 163);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(34, 18);
             this.label10.TabIndex = 17;
@@ -489,7 +490,7 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Minion Pro", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(332, 232);
+            this.label11.Location = new System.Drawing.Point(331, 201);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(57, 18);
             this.label11.TabIndex = 18;
@@ -499,7 +500,7 @@
             // 
             this.p1Won.AutoSize = true;
             this.p1Won.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.p1Won.Location = new System.Drawing.Point(337, 63);
+            this.p1Won.Location = new System.Drawing.Point(385, 46);
             this.p1Won.Name = "p1Won";
             this.p1Won.Size = new System.Drawing.Size(40, 15);
             this.p1Won.TabIndex = 19;
@@ -509,7 +510,7 @@
             // 
             this.p1Def.AutoSize = true;
             this.p1Def.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.p1Def.Location = new System.Drawing.Point(340, 116);
+            this.p1Def.Location = new System.Drawing.Point(385, 88);
             this.p1Def.Name = "p1Def";
             this.p1Def.Size = new System.Drawing.Size(37, 15);
             this.p1Def.TabIndex = 20;
@@ -519,7 +520,7 @@
             // 
             this.p2Won.AutoSize = true;
             this.p2Won.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.p2Won.Location = new System.Drawing.Point(343, 201);
+            this.p2Won.Location = new System.Drawing.Point(385, 163);
             this.p2Won.Name = "p2Won";
             this.p2Won.Size = new System.Drawing.Size(34, 15);
             this.p2Won.TabIndex = 21;
@@ -529,7 +530,7 @@
             // 
             this.p2Def.AutoSize = true;
             this.p2Def.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.p2Def.Location = new System.Drawing.Point(337, 250);
+            this.p2Def.Location = new System.Drawing.Point(385, 202);
             this.p2Def.Name = "p2Def";
             this.p2Def.Size = new System.Drawing.Size(40, 15);
             this.p2Def.TabIndex = 22;
@@ -545,6 +546,7 @@
             this.Controls.Add(this.p1Def);
             this.Controls.Add(this.p1Won);
             this.Controls.Add(this.label11);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.panel2);
@@ -552,7 +554,6 @@
             this.Controls.Add(this.boardM);
             this.Controls.Add(this.boardS);
             this.Controls.Add(this.test2);
-            this.Controls.Add(this.panel1);
             this.Controls.Add(this.B2);
             this.Controls.Add(this.C1);
             this.Controls.Add(this.C2);
