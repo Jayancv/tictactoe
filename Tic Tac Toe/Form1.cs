@@ -19,6 +19,7 @@ namespace Tic_Tac_Toe
 
         bool turn = true;                   //turn is true when x turn
         bool computer = true;               //default game is single player
+        bool isNetwork;                     //set networking
         int turnCount = 0;
         String p, p1, p2;
         int[] board;                        //for score board
@@ -225,9 +226,7 @@ namespace Tic_Tac_Toe
 
         private void multi(object sender, EventArgs e)
         {
-            computer = false;
-            btnEnable(false);
-            panel1.Visible = true;
+            
 
         }
 
@@ -459,7 +458,7 @@ namespace Tic_Tac_Toe
 
         }
 
-        private void submit_Click(object sender, EventArgs e)
+        private void save_Click(object sender, EventArgs e)
         {
             if (player1.Text.Equals("") || player2.Text.Equals(""))
             {
@@ -533,6 +532,43 @@ namespace Tic_Tac_Toe
         private void boardS_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void networkToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            panel4.Visible = true;
+            isNetwork = true;                       //To know this is a netwi=orking game
+            computer = false;
+            btnEnable(false);
+            
+        }
+
+        private void normalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            computer = false;
+            btnEnable(false);
+            panel1.Visible = true;
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label6_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            panel4.Visible = false;
+            btnEnable(true);
         }
 
      

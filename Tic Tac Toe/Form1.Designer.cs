@@ -32,6 +32,8 @@
             this.newGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.modeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.playersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.networkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.normalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.singlePlayerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newGame = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -49,8 +51,10 @@
             this.B2 = new System.Windows.Forms.Button();
             this.fontDialog1 = new System.Windows.Forms.FontDialog();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.btnCancelP2 = new System.Windows.Forms.Button();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.panel3 = new System.Windows.Forms.Panel();
             this.submit = new System.Windows.Forms.Button();
+            this.btnCancelP2 = new System.Windows.Forms.Button();
             this.player2 = new System.Windows.Forms.TextBox();
             this.player1 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -73,8 +77,16 @@
             this.p1Def = new System.Windows.Forms.Label();
             this.p2Won = new System.Windows.Forms.Label();
             this.p2Def = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.panel4.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -111,10 +123,27 @@
             // 
             // playersToolStripMenuItem
             // 
+            this.playersToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.networkToolStripMenuItem,
+            this.normalToolStripMenuItem});
             this.playersToolStripMenuItem.Name = "playersToolStripMenuItem";
             this.playersToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.playersToolStripMenuItem.Text = "2-Players";
             this.playersToolStripMenuItem.Click += new System.EventHandler(this.multi);
+            // 
+            // networkToolStripMenuItem
+            // 
+            this.networkToolStripMenuItem.Name = "networkToolStripMenuItem";
+            this.networkToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.networkToolStripMenuItem.Text = "Network";
+            this.networkToolStripMenuItem.Click += new System.EventHandler(this.networkToolStripMenuItem_Click);
+            // 
+            // normalToolStripMenuItem
+            // 
+            this.normalToolStripMenuItem.Name = "normalToolStripMenuItem";
+            this.normalToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.normalToolStripMenuItem.Text = "Normal";
+            this.normalToolStripMenuItem.Click += new System.EventHandler(this.normalToolStripMenuItem_Click);
             // 
             // singlePlayerToolStripMenuItem
             // 
@@ -276,8 +305,10 @@
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.btnCancelP2);
+            this.panel1.Controls.Add(this.panel4);
+            this.panel1.Controls.Add(this.panel3);
             this.panel1.Controls.Add(this.submit);
+            this.panel1.Controls.Add(this.btnCancelP2);
             this.panel1.Controls.Add(this.player2);
             this.panel1.Controls.Add(this.player1);
             this.panel1.Controls.Add(this.label3);
@@ -290,6 +321,39 @@
             this.panel1.Visible = false;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.button2);
+            this.panel4.Controls.Add(this.button1);
+            this.panel4.Controls.Add(this.checkBox2);
+            this.panel4.Controls.Add(this.checkBox1);
+            this.panel4.Controls.Add(this.textBox1);
+            this.panel4.Controls.Add(this.label7);
+            this.panel4.Controls.Add(this.label6);
+            this.panel4.Location = new System.Drawing.Point(7, 3);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(284, 158);
+            this.panel4.TabIndex = 8;
+            this.panel4.Visible = false;
+            // 
+            // panel3
+            // 
+            this.panel3.Location = new System.Drawing.Point(122, 18);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(8, 8);
+            this.panel3.TabIndex = 7;
+            // 
+            // submit
+            // 
+            this.submit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.submit.Location = new System.Drawing.Point(48, 116);
+            this.submit.Name = "submit";
+            this.submit.Size = new System.Drawing.Size(75, 23);
+            this.submit.TabIndex = 5;
+            this.submit.Text = "Save";
+            this.submit.UseVisualStyleBackColor = true;
+            this.submit.Click += new System.EventHandler(this.save_Click);
+            // 
             // btnCancelP2
             // 
             this.btnCancelP2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -300,17 +364,6 @@
             this.btnCancelP2.Text = "Cancel";
             this.btnCancelP2.UseVisualStyleBackColor = true;
             this.btnCancelP2.Click += new System.EventHandler(this.btnCancelP2_Click);
-            // 
-            // submit
-            // 
-            this.submit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.submit.Location = new System.Drawing.Point(48, 116);
-            this.submit.Name = "submit";
-            this.submit.Size = new System.Drawing.Size(75, 23);
-            this.submit.TabIndex = 5;
-            this.submit.Text = "Submit";
-            this.submit.UseVisualStyleBackColor = true;
-            this.submit.Click += new System.EventHandler(this.submit_Click);
             // 
             // player2
             // 
@@ -331,30 +384,30 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Minion Pro", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(190, 46);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(53, 18);
+            this.label3.Size = new System.Drawing.Size(65, 16);
             this.label3.TabIndex = 2;
             this.label3.Text = "Player 2";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Minion Pro", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(45, 46);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(53, 18);
+            this.label2.Size = new System.Drawing.Size(65, 16);
             this.label2.TabIndex = 1;
             this.label2.Text = "Player 1";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Adobe Hebrew", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(87, 8);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(105, 24);
+            this.label1.Size = new System.Drawing.Size(124, 24);
             this.label1.TabIndex = 0;
             this.label1.Text = "Two Players";
             this.label1.Click += new System.EventHandler(this.label1_Click);
@@ -417,10 +470,10 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Adobe Hebrew", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(88, 6);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(113, 24);
+            this.label4.Size = new System.Drawing.Size(133, 24);
             this.label4.TabIndex = 0;
             this.label4.Text = "Single Player";
             // 
@@ -435,10 +488,10 @@
             // boardS
             // 
             this.boardS.AutoSize = true;
-            this.boardS.Font = new System.Drawing.Font("Adobe Gothic Std B", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.boardS.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.boardS.Location = new System.Drawing.Point(277, 64);
             this.boardS.Name = "boardS";
-            this.boardS.Size = new System.Drawing.Size(32, 16);
+            this.boardS.Size = new System.Drawing.Size(35, 16);
             this.boardS.TabIndex = 13;
             this.boardS.Text = "You";
             this.boardS.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -447,10 +500,10 @@
             // boardM
             // 
             this.boardM.AutoSize = true;
-            this.boardM.Font = new System.Drawing.Font("Adobe Gothic Std B", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.boardM.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.boardM.Location = new System.Drawing.Point(277, 180);
             this.boardM.Name = "boardM";
-            this.boardM.Size = new System.Drawing.Size(69, 16);
+            this.boardM.Size = new System.Drawing.Size(74, 16);
             this.boardM.TabIndex = 14;
             this.boardM.Text = "Computer";
             this.boardM.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -458,10 +511,10 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Minion Pro", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.Location = new System.Drawing.Point(332, 46);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(34, 18);
+            this.label8.Size = new System.Drawing.Size(39, 16);
             this.label8.TabIndex = 15;
             this.label8.Text = "Won";
             this.label8.Click += new System.EventHandler(this.label8_Click);
@@ -469,30 +522,30 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Minion Pro", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(331, 85);
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(307, 83);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(57, 18);
+            this.label9.Size = new System.Drawing.Size(72, 16);
             this.label9.TabIndex = 16;
             this.label9.Text = "Defeated";
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Minion Pro", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.Location = new System.Drawing.Point(337, 163);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(34, 18);
+            this.label10.Size = new System.Drawing.Size(39, 16);
             this.label10.TabIndex = 17;
             this.label10.Text = "Won";
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Minion Pro", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(331, 201);
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Location = new System.Drawing.Point(307, 207);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(57, 18);
+            this.label11.Size = new System.Drawing.Size(72, 16);
             this.label11.TabIndex = 18;
             this.label11.Text = "Defeated";
             // 
@@ -536,6 +589,74 @@
             this.p2Def.TabIndex = 22;
             this.p2Def.Text = "           ";
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label6.Location = new System.Drawing.Point(75, 20);
+            this.label6.MaximumSize = new System.Drawing.Size(10000, 1000);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(111, 15);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "Two Player - Network";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.label6.Click += new System.EventHandler(this.label6_Click_1);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(11, 55);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(35, 13);
+            this.label7.TabIndex = 1;
+            this.label7.Text = "Name";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(75, 50);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 20);
+            this.textBox1.TabIndex = 2;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(11, 94);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(78, 17);
+            this.checkBox1.TabIndex = 3;
+            this.checkBox1.Text = "Player One";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(123, 93);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(79, 17);
+            this.checkBox2.TabIndex = 4;
+            this.checkBox2.Text = "Player Two";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(11, 120);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 5;
+            this.button1.Text = "Save";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(139, 120);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 6;
+            this.button2.Text = "Cancel";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -572,6 +693,8 @@
             this.menuStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.ResumeLayout(false);
@@ -626,6 +749,17 @@
         private System.Windows.Forms.Label p1Def;
         private System.Windows.Forms.Label p2Won;
         private System.Windows.Forms.Label p2Def;
+        private System.Windows.Forms.ToolStripMenuItem networkToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem normalToolStripMenuItem;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button1;
     }
 }
 
