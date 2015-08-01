@@ -11,18 +11,25 @@ using MySQLClass;
 
 namespace Tic_Tac_Toe
 {
+
     public partial class Form1 : Form
     {
-        bool turn = true;
-        bool computer = true;
+        //hostname,database,username,password,port
+        MySQLClient sqlClient = new MySQLClient("localhost", "tic", "root", "root", 3306); 
+
+        bool turn = true;                   //turn is true when x turn
+        bool computer = true;               //default game is single player
         int turnCount = 0;
-        String p, p1, p1;
-        int WonP, WonP1, WonP2, DefP, DefP1, DefP2;
-        
+        String p, p1, p2;
+        int[] board;                        //for score board
+
         //check
         public Form1()
         {
             InitializeComponent();
+            p = "You";
+            p1 = "Player 1";
+            p2 = "Player 2";
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -33,31 +40,28 @@ namespace Tic_Tac_Toe
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("By jayan", "Abot tic tac toe");    
-            }
+            MessageBox.Show("By jayan Vidanapathirana & Chamal Kuruppu", "Abot tic tac toe");
+        }
 
-        private void btnClick(object sender, EventArgs e)
-        
+        //Button click method
+        private void btnClick(object sender, EventArgs e) 
         {
-            //if (!computer) { 
-
             Button b = (Button)sender;
-            if (turn == true)
+            if (turn == true)                //change button image
                 b.Text = "X";
             else
                 b.Text = "O";
-            turn = !turn;
-            b.Enabled = false;
+            turn = !turn;                    //change turn
+            b.Enabled = false;                
             turnCount++;
             checkWinner();
-           // }
-            if ((!turn) && (computer) && (turnCount<9))
+            if ((!turn) && (computer) && (turnCount < 9))
             {
                 computer_make_move();
             }
         }
 
-
+        //check manually possible places
         private void checkWinner()
         {
             bool theWin = false;
@@ -78,54 +82,115 @@ namespace Tic_Tac_Toe
             if (A3.Text == B2.Text && B2.Text == C1.Text && (!A3.Enabled))
                 theWin = true;
 
-            if(theWin){
-                disable();
+            if (theWin)
+            {
+                btnEnable(false);
                 String winner;
-                if(turn)
-                    winner="O";
+                if (turn)
+                    winner = "O";
                 else
-                    winner="X";
-                if (computer && (winner == "O"))
-                    MessageBox.Show( "Computer won the game !","Winner");
-                else
-                    MessageBox.Show(winner +" won the game !", "Winner");
-            }
-            else
-            {
-               if( turnCount==9)
-                   MessageBox.Show("game Over Draw!", "Loose");
+                    winner = "X";
 
-            }
-        }
-        private void disable()
-        {
-            try
-            {
-                foreach (Control c in Controls)
-                {
-                    Button b = (Button)c;
-                    b.Enabled = false;
+                if (computer && (winner == "O")) {                       //if computer won (Single palyer)
+                    int defP = sqlClient.getScour("score", p, "defeat1");
+                    defP = defP + 1;
+                    sqlClient.Update(" score ", " defeat1=", defP, p);
+                    setScoreBoard(p);
+                    MessageBox.Show("Computer won the game !", "Winner");
+                } else {
+                    if (computer)                                            //check single player or not
+                    { 
+                        //single player Playe1/You won
+                        int wonP = sqlClient.getScour("score", p, "won1");
+                        wonP = wonP + 1;
+                        sqlClient.Update("score", "won1=", wonP, p);
+                        setScoreBoard(p);
+                        MessageBox.Show(p + " won the game !", "Winner");
+
+                    }
+                    else                                                      //Multiplayer  mode win
+                    {
+
+                        if (winner == "X")
+                        {
+                            int wonP1 = sqlClient.getScour("score", p1, "won2");
+                            wonP1 = wonP1 + 1;
+                            sqlClient.Update("score", "won2=", wonP1, p1);
+                            int defP2 = sqlClient.getScour("score", p2, "defeat2");
+                            defP2 = defP2 + 1;
+                            sqlClient.Update("score", "defeat2=", defP2, p2);
+
+                            MessageBox.Show(p1 + " won the game !", "Winner");
+                        }
+                        else
+                        {
+                            int wonP2 = sqlClient.getScour("score", p2, "won2");
+                            wonP2 = wonP2 + 1;
+                            sqlClient.Update("score", "won2=", wonP2, p2);
+                            int defP1 = sqlClient.getScour("score", p1, "defeat2");
+                            defP1 = defP1 + 1;
+                            sqlClient.Update("score", "defeat2=", defP1, p1);
+
+                            MessageBox.Show(p2 + " won the game !", "Winner");
+                        }
+                        setScoreBoard(p1, p2);
+
+
+                    }
+                }
+
+            } else {                                         //no winners then,
+                if (turnCount == 9)   {                      //check turn Count, if it equals to 9 then game over & draw
+                        if (computer){                       //Single player mode
+                        int drwP = sqlClient.getScour("score", p, "draw1");
+                        drwP = drwP + 1;
+                        sqlClient.Update("score", "draw1=", drwP, p);
+                    }else {                                                       //multiplayer mode, change socres
+                        int drwP1 = sqlClient.getScour("score", p1, "draw2");
+                        drwP1 = drwP1 + 1;
+                        sqlClient.Update("score", "draw2=", drwP1, p1);
+                        int drwP2 = sqlClient.getScour("score", p2, "draw2");
+                        drwP2 = drwP2 + 1;
+                        sqlClient.Update("score", "draw2=", drwP2, p2);
+                    }
+                    MessageBox.Show("game Over Draw!", "Loose");
+
                 }
             }
-            catch { }
+
         }
+        //set score Board values for single player
+        private void setScoreBoard(string name1)
+        {
+                board = sqlClient.Get("score", name1);
+                p1Won.Text = board[0].ToString();
+                p1Def.Text = board[2].ToString();
+                p2Won.Text = board[2].ToString();
+                p2Def.Text = board[0].ToString();
+
+        }
+
+        //set score board values for multiplayer 
+        private void setScoreBoard(string name1, string name2)
+        {
+            board = sqlClient.Get("score", name1);        //get player 1 scores and update score board
+            p1Won.Text = board[1].ToString();
+            p1Def.Text = board[3].ToString();
+            board = sqlClient.Get("score", name2);        //get player 1 scores and update score board
+            p2Won.Text = board[1].ToString();
+            p2Def.Text = board[3].ToString();
+
+        }
+
+
 
         private void newGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-            turn = true;
-            turnCount = 0;
-            foreach (Control c in Controls)
-            {
-                try { 
-                Button b = (Button)c;
-                b.Text = "";
-                b.Enabled = true;
-                }
-                catch { }
-            }
+
         }
 
+        
         private void mouse_Enter(object sender, EventArgs e)
         {
             Button b = (Button)sender;
@@ -153,6 +218,7 @@ namespace Tic_Tac_Toe
         private void single(object sender, EventArgs e)
         {
             computer = true;
+            btnEnable(false);
             panel2.Visible = true;
             turn = true;
         }
@@ -160,12 +226,25 @@ namespace Tic_Tac_Toe
         private void multi(object sender, EventArgs e)
         {
             computer = false;
-            panel1.Visible=true;
+            btnEnable(false);
+            panel1.Visible = true;
 
         }
 
+        //Enable and disable buttons
+        private void btnEnable(bool arg)
+        {
+            foreach (Control c in Controls)
+            {
+                try
+                {
+                    Button b = (Button)c;
+                    b.Enabled = arg;
+                }
+                catch { }
+            }
 
-
+        }
 
         private void computer_make_move()
         {
@@ -173,10 +252,10 @@ namespace Tic_Tac_Toe
             //priority 2:  block x tic tac toe
             //priority 3:  go for corner space
             //priority 4:  pick open space
- 
+
             Button move = null;
- 
-            move = look_for_win_or_block("O"); 
+
+            move = look_for_win_or_block("O");
             if (move == null)
             {
                 move = look_for_win_or_block("X");
@@ -192,7 +271,7 @@ namespace Tic_Tac_Toe
 
             move.PerformClick();
         }
- 
+
         private Button look_for_open_space()
         {
             Console.WriteLine("Looking for open space");
@@ -204,12 +283,12 @@ namespace Tic_Tac_Toe
                 {
                     if (b.Text == "")
                         return b;
-                }//end if
-            }//end if
-           
-           return null;
+                }
+            }
+
+            return null;
         }
- 
+
         private Button look_for_corner()
         {
             Console.WriteLine("Looking for corner");
@@ -222,7 +301,7 @@ namespace Tic_Tac_Toe
                 if (C1.Text == "")
                     return C1;
             }
- 
+
             if (A3.Text == "O")
             {
                 if (A1.Text == "")
@@ -232,7 +311,7 @@ namespace Tic_Tac_Toe
                 if (C1.Text == "")
                     return C1;
             }
- 
+
             if (C3.Text == "O")
             {
                 if (A1.Text == "")
@@ -242,7 +321,7 @@ namespace Tic_Tac_Toe
                 if (C1.Text == "")
                     return C1;
             }
- 
+
             if (C1.Text == "O")
             {
                 if (A1.Text == "")
@@ -252,7 +331,7 @@ namespace Tic_Tac_Toe
                 if (C3.Text == "")
                     return C3;
             }
-           
+
             if (A1.Text == "")
                 return A1;
             if (A3.Text == "")
@@ -261,10 +340,10 @@ namespace Tic_Tac_Toe
                 return C1;
             if (C3.Text == "")
                 return C3;
- 
+
             return null;
         }
- 
+
         private Button look_for_win_or_block(string mark)
         {
             Console.WriteLine("Looking for win or block:  " + mark);
@@ -275,21 +354,21 @@ namespace Tic_Tac_Toe
                 return A1;
             if ((A1.Text == mark) && (A3.Text == mark) && (A2.Text == ""))
                 return A2;
- 
+
             if ((B1.Text == mark) && (B2.Text == mark) && (B3.Text == ""))
                 return B3;
             if ((B2.Text == mark) && (B3.Text == mark) && (B1.Text == ""))
                 return B1;
             if ((B1.Text == mark) && (B3.Text == mark) && (B2.Text == ""))
                 return B2;
- 
+
             if ((C1.Text == mark) && (C2.Text == mark) && (C3.Text == ""))
                 return C3;
             if ((C2.Text == mark) && (C3.Text == mark) && (C1.Text == ""))
                 return C1;
             if ((C1.Text == mark) && (C3.Text == mark) && (C2.Text == ""))
                 return C2;
- 
+
             //VERTICAL TESTS
             if ((A1.Text == mark) && (B1.Text == mark) && (C1.Text == ""))
                 return C1;
@@ -297,7 +376,7 @@ namespace Tic_Tac_Toe
                 return A1;
             if ((A1.Text == mark) && (C1.Text == mark) && (B1.Text == ""))
                 return B1;
-            Console.WriteLine("skip " );
+            Console.WriteLine("skip ");
 
             if ((A2.Text == mark) && (B2.Text == mark) && (C2.Text == ""))
                 return C2;
@@ -305,14 +384,14 @@ namespace Tic_Tac_Toe
                 return A2;
             if ((A2.Text == mark) && (C2.Text == mark) && (B2.Text == ""))
                 return B2;
- 
+
             if ((A3.Text == mark) && (B3.Text == mark) && (C3.Text == ""))
                 return C3;
             if ((B3.Text == mark) && (C3.Text == mark) && (A3.Text == ""))
                 return A3;
             if ((A3.Text == mark) && (C3.Text == mark) && (B3.Text == ""))
                 return B3;
- 
+
             //DIAGONAL TESTS
             if ((A1.Text == mark) && (B2.Text == mark) && (C3.Text == ""))
                 return C3;
@@ -320,14 +399,14 @@ namespace Tic_Tac_Toe
                 return A1;
             if ((A1.Text == mark) && (C3.Text == mark) && (B2.Text == ""))
                 return B2;
- 
+
             if ((A3.Text == mark) && (B2.Text == mark) && (C1.Text == ""))
                 return C1;
             if ((B2.Text == mark) && (C1.Text == mark) && (A3.Text == ""))
                 return A3;
             if ((A3.Text == mark) && (C1.Text == mark) && (B2.Text == ""))
                 return B2;
- 
+
             return null;
         }
 
@@ -341,9 +420,33 @@ namespace Tic_Tac_Toe
 
         }
 
-        private void repateGameToolStripMenuItem_Click(object sender, EventArgs e)
+        private void newGame_Click(object sender, EventArgs e)
         {
-            newGameToolStripMenuItem_Click(sender, e);
+            turn = true;
+            turnCount = 0;
+            if (computer)
+            {
+                boardS.Text = p;
+                boardM.Text = "Computer";
+                setScoreBoard(p);
+            }
+            else
+            {
+                boardS.Text = p1;
+                boardM.Text = p2;
+                setScoreBoard(p1, p2);
+            }
+            foreach (Control c in Controls)
+            {
+                try
+                {
+                    Button b = (Button)c;
+                    b.Text = "";
+                }
+                catch { }
+            }
+            //setScoreBoard(p);
+            btnEnable(true);
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
@@ -362,27 +465,54 @@ namespace Tic_Tac_Toe
             {
                 panel1.Visible = true;
             }
-            else {
+            else
+            {
+                p1 = player1.Text;
+                p2 = player2.Text;
+                bool exist1 = sqlClient.Exist("score", p1);
+                bool exist2 = sqlClient.Exist("score", p2);
+                if (!exist1) {                                   //if player 1 not exist in database then insert to database
+                
+                    sqlClient.Insert("score", "name", p1);
+                }
+                if (!exist2) {                                    //if player 2 not exist in database then insert to database
+                
+                    sqlClient.Insert("score", "name", p2);
+                }
                 panel1.Visible = false;
+                newGame_Click(sender, e);
+
             }
         }
 
         private void submitP1_Click(object sender, EventArgs e)
         {
-            if (singlePlayer.Text.Equals("")) {
+            if (singlePlayer.Text.Equals(""))
+            {
                 panel2.Visible = true;
+            }  else  {
+                p = singlePlayer.Text;
+                bool exist = sqlClient.Exist("score", p);
+
+                if (!exist)  {                   //if player 1 not exist in database then insert to database
+                    sqlClient.Insert("score", "name", p);
+                }
+                panel2.Visible = false;
+                newGame_Click(sender, e);
             }
-            else { panel2.Visible = false ; }
+
         }
 
         private void button1_Click_1(object sender, EventArgs e)
         {
             panel2.Visible = false;
+            btnEnable(true);
         }
 
         private void btnCancelP2_Click(object sender, EventArgs e)
         {
             panel1.Visible = false;
+            btnEnable(true);
         }
 
         private void scoreToolStripMenuItem_Click(object sender, EventArgs e)
@@ -390,8 +520,20 @@ namespace Tic_Tac_Toe
 
         }
 
+        private void fontDialog1_Apply(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label8_Click(object sender, EventArgs e)
+        {
+
+        }
+
+     
+
     }
-    
+
 
 
 }

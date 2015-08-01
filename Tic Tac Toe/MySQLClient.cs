@@ -1,16 +1,11 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MySql.Data.MySqlClient;
 
 namespace MySQLClass
 {
-
-    //Don't forget to add the MySQL.Data dll to your projects references
-    //It can be downloaded for free from MySQL's official website.
-    //Link to the .NET Connector (MS Installer) http://dev.mysql.com/downloads/connector/net/
-
 
     class MySQLClient
     {
@@ -20,17 +15,17 @@ namespace MySQLClass
         #region Constructors
         public MySQLClient(string hostname, string database, string username, string password)
         {
-            conn = new MySqlConnection("host=" + hostname + ";database=" + database +";username=" + username +";password=" + password +";");
+            conn = new MySqlConnection("host=" + hostname + ";database=" + database + ";username=" + username + ";password=" + password + ";");
         }
 
         public MySQLClient(string hostname, string database, string username, string password, int portNumber)
         {
-            conn = new MySqlConnection("host=" + hostname + ";database=" + database + ";username=" + username + ";password=" + password + ";port=" + portNumber.ToString() +";");
+            conn = new MySqlConnection("host=" + hostname + ";database=" + database + ";username=" + username + ";password=" + password + ";port=" + portNumber.ToString() + ";");
         }
 
         public MySQLClient(string hostname, string database, string username, string password, int portNumber, int connectionTimeout)
         {
-            conn = new MySqlConnection("host=" + hostname + ";database=" + database + ";username=" + username + ";password=" + password + ";port=" + portNumber.ToString() + ";Connection Timeout=" + connectionTimeout.ToString() +";");
+            conn = new MySqlConnection("host=" + hostname + ";database=" + database + ";username=" + username + ";password=" + password + ";port=" + portNumber.ToString() + ";Connection Timeout=" + connectionTimeout.ToString() + ";");
         }
         #endregion
 
@@ -69,33 +64,39 @@ namespace MySQLClass
         {
             //Insert values into the database.
 
-            //Example: INSERT INTO names (name, age) VALUES('John Smith', '33')
-            //Code: MySQLClient.Insert("names", "name, age", "'John Smith, '33'");
-            string query = "INSERT INTO " + table + " (" + column + ") VALUES (" + value + ")";
+
+            string query = "INSERT INTO " + table + " (" + column + ") VALUES ('" + value + "')";
 
             try
             {
                 if (this.Open())
                 {
                     //Opens a connection, if succefull; run the query and then close the connection.
+                    try
+                    {
+                        MySqlCommand cmd = new MySqlCommand(query, conn);
+                        cmd.ExecuteNonQuery();
 
-                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (Exception eef)
+                    {
 
-                    cmd.ExecuteNonQuery();
+                    }
                     this.Close();
+                    return;
+
                 }
             }
-            catch { }
+            catch (Exception e) { }
             return;
         }
 
-        public void Update(string table, string SET, string WHERE)
+        public void Update(string table, string SET, int value, string name)
         {
             //Update existing values in the database.
 
-            //Example: UPDATE names SET name='Joe', age='22' WHERE name='John Smith'
-            //Code: MySQLClient.Update("names", "name='Joe', age='22'", "name='John Smith'");
-            string query = "UPDATE " + table + " SET " + SET + " WHERE " + WHERE + "";
+            string query = "UPDATE " + table + " SET " + SET + " " + value + " WHERE name= '" + name + "'";
 
             if (this.Open())
             {
@@ -112,7 +113,7 @@ namespace MySQLClass
             return;
         }
 
-        public void Delete(string table, string WHERE) 
+        public void Delete(string table, string WHERE)
         {
             //Removes an entry from the database.
 
@@ -135,75 +136,117 @@ namespace MySQLClass
             return;
         }
 
-        public Dictionary<string, string> Select(string table, string WHERE)
+
+        public int getScour(string table, string name, string col)
         {
-            //This methods selects from the database, it retrieves data from it.
-            //You must make a dictionary to use this since it both saves the column
-            //and the value. i.e. "age" and "33" so you can easily search for values.
 
-            //Example: SELECT * FROM names WHERE name='John Smith'
-            // This example would retrieve all data about the entry with the name "John Smith"
 
-            //Code = Dictionary<string, string> myDictionary = Select("names", "name='John Smith'");
-            //This code creates a dictionary and fills it with info from the database.
-
-            string query = "SELECT * FROM " + table + " WHERE " + WHERE + "";
-
-            Dictionary<string, string> selectResult = new Dictionary<string, string>();
-
+            int score = 0;
+            string query = "SELECT * FROM " + table + " WHERE name='" + name + "'";
             if (this.Open())
-            {
-                MySqlCommand cmd = new MySqlCommand(query, conn);
-                MySqlDataReader dataReader = cmd.ExecuteReader();
-
-                try
-                {
-                    while (dataReader.Read())
-                    {
-
-                        for (int i = 0; i < dataReader.FieldCount; i++)
-                        {
-                            selectResult.Add(dataReader.GetName(i).ToString(), dataReader.GetValue(i).ToString());
-                        }
-
-                    }
-                    dataReader.Close();
-                }
-                catch { }
-                this.Close();
-
-                return selectResult;
-            }
-            else
-            {
-                return selectResult;
-            }
-        }
-
-        public int Count(string table)
-        {
-            //This counts the numbers of entries in a table and returns it as an integear
-
-            //Example: SELECT Count(*) FROM names
-            //Code: int myInt = MySQLClient.Count("names");
-
-            string query = "SELECT Count(*) FROM " + table + "";
-            int Count = -1;
-            if (this.Open() == true)
             {
                 try
                 {
                     MySqlCommand cmd = new MySqlCommand(query, conn);
-                    Count = int.Parse(cmd.ExecuteScalar() + "");
-                    this.Close();
+                    MySqlDataReader dataReader = cmd.ExecuteReader();
+
+
+                    if (dataReader.Read())
+                    {
+                        score = int.Parse(dataReader[col].ToString());
+                        this.Close();
+                        return score;
+                    }
+                    dataReader.Close();
                 }
-                catch { this.Close(); }
-                return Count;
+                catch (Exception ee)
+                { }
+                this.Close();
+
+                return score;
             }
             else
             {
-                return Count;
+                return score;
             }
         }
+
+
+        //check a name exist in the database
+        public Boolean Exist(string table, string name)
+        {
+            string query = " SELECT name FROM " + table + " WHERE name='" + name + "'";
+            bool ext = false;
+
+            if (this.Open())
+            {
+                try
+                {
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                    if (dataReader.Read())
+                    {
+                        string sc = dataReader["name"].ToString();
+                        this.Close();
+                        if ((sc == name) || (sc.ToLower() == name.ToLower()))
+                        {
+                            ext = true;
+                        } else {
+                        }
+                        dataReader.Close();
+                        this.Close();
+                        return ext;
+                    }
+                    dataReader.Close();
+
+                }
+                catch (Exception e) { }
+                this.Close();
+                return false;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        //get player scores to an array
+        public int[] Get(string table, string name)
+        {
+            int[] score = new int[4];
+            string query = " SELECT * FROM " + table + " WHERE name='" + name + "'";
+            if (this.Open())
+            {
+                try
+                {
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                    if (dataReader.Read())
+                    {
+                        score[0] = int.Parse(dataReader["won1"].ToString());
+                        score[1] = int.Parse(dataReader["won2"].ToString());
+                        score[2] = int.Parse(dataReader["defeat1"].ToString());
+                        score[3] = int.Parse(dataReader["defeat2"].ToString());
+
+                        dataReader.Close();
+                        this.Close();
+                        return score;
+                    }
+                    dataReader.Close();
+
+                }
+                catch (Exception e) { }
+                this.Close();
+                return score;
+            }
+            else
+            {
+                return score;
+            }
+        }
+
+
     }
 }

@@ -7,3 +7,4 @@ c:\users\jayan\documents\visual studio 2013\Projects\Tic Tac Toe\Tic Tac Toe\obj
 c:\users\jayan\documents\visual studio 2013\Projects\Tic Tac Toe\Tic Tac Toe\obj\Debug\Tic Tac Toe.csproj.GenerateResource.Cache
 c:\users\jayan\documents\visual studio 2013\Projects\Tic Tac Toe\Tic Tac Toe\obj\Debug\Tic Tac Toe.exe
 c:\users\jayan\documents\visual studio 2013\Projects\Tic Tac Toe\Tic Tac Toe\obj\Debug\Tic Tac Toe.pdb
+C:\Users\Jayan\Documents\Visual Studio 2013\Projects\Tic Tac Toe\Tic Tac Toe\bin\Debug\MySql.Data.dll
